@@ -1,31 +1,65 @@
-const path = require(`path`);
-const fs = require('fs');
+const path = require('path');
+const fs = require('fs').promises;
+const colors = require('colors/safe');
 
-const contactsPath = path.resolve('contacts.js');
+const contactsPath = path.resolve('./db/contacts2s.json');
 
-// TODO: задокументувати кожну функцію
-function listContacts() {
-  return fs.readFile(contactsPath, 'utf-8', (err, data) => {
-    if (err) {
-      console.error(err);
-    }
-    console.log(data);
-  });
+async function readFile() {
+  try {
+    return JSON.parse(await fs.readFile(contactsPath, 'utf-8'));
+  } catch (err) {
+    error(err);
+  }
 }
 
-function getContactById(contactId) {
-  // ...твій код
+async function writeFile(data) {
+  try {
+    fs.writeFile(contactsPath, JSON.stringify(data, null, '\t'));
+  } catch (err) {
+    error(err);
+  }
 }
 
-function removeContact(contactId) {
-  // ...твій код
+function error(err) {
+  console.log(colors.red.underline(err.message));
+  process.exit();
 }
 
-function addContact(name, email, phone) {
-  // ...твій код
+async function listContacts() {
+  const contacts = await readFile();
+  console.table(contacts);
 }
 
-console.log(contactsPath);``
-listContacts();
+async function getContactById(contactId) {
+  const contactIdStr = contactId.toString();
+  const contacts = await readFile();
+  const contact = await contacts.filter(({ id }) => id === contactIdStr);
+  console.table(contact);
+}
+
+async function addContact(name, email, phone) {
+  const contacts = await readFile();
+  const newContact = {
+    id: (contacts.length + 1).toString(),
+    name,
+    email,
+    phone
+  }
+  writeFile([...contacts, newContact]);
+}
+
+async function removeContact(contactId) {
+  const contactIdStr = contactId.toString();
+  const contacts = await readFile();
+  const newContactsList = await contacts.filter(({ id }) => id !== contactIdStr);
+  writeFile([...newContactsList]);
+}
+
+module.exports = {
+  listContacts,
+  getContactById,
+  addContact,
+  removeContact
+}
 
 
