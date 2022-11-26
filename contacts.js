@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const colors = require('colors/safe');
 
-const contactsPath = path.resolve('./db/contacts2s.json');
+const contactsPath = path.resolve('./db/contacts.json');
 
 async function readFile() {
   try {
@@ -20,10 +20,10 @@ async function writeFile(data) {
   }
 }
 
-function error(err) {
-  console.log(colors.red.underline(err.message));
+function error(message) {
+  console.log(colors.red.underline(message));
   process.exit();
-}
+} 
 
 async function listContacts() {
   const contacts = await readFile();
@@ -39,8 +39,9 @@ async function getContactById(contactId) {
 
 async function addContact(name, email, phone) {
   const contacts = await readFile();
+  const newContactId = (Number(contacts[contacts.length - 1].id) + 1).toString();
   const newContact = {
-    id: (contacts.length + 1).toString(),
+    id: newContactId,
     name,
     email,
     phone
