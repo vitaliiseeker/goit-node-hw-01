@@ -1,14 +1,12 @@
 # goit-node-hw-01
-//=========================
+---
 ## Посилання на скріншоти виконання команд
-//=========================
 
-https://ibb.co/51RctCf
-https://ibb.co/99tNyLF
-https://ibb.co/YjXnpNb
-https://ibb.co/8mkYG3C
-
-//=========================
+* ### https://ibb.co/51RctCf
+* ### https://ibb.co/99tNyLF
+* ### https://ibb.co/YjXnpNb
+* ### https://ibb.co/8mkYG3C
+---
 
 # Домашнє завдання 1
 
