@@ -25,11 +25,20 @@ function error(message) {
   process.exit();
 } 
 
+/**
+ * Output of data array in the form of a table to the console.
+ * @returns console.table(array)
+ */
 async function listContacts() {
   const contacts = await readFile();
   console.table(contacts);
 }
 
+/**
+ * Search in the data array by 'Id' and output data in the form of a table to the console.
+ * @param {string} contactId - id of the element to be found.
+ * @returns console.table(array)
+ */
 async function getContactById(contactId) {
   const contactIdStr = contactId.toString();
   const contacts = await readFile();
@@ -37,6 +46,12 @@ async function getContactById(contactId) {
   console.table(contact);
 }
 
+/**
+ * Adding a new element to an data array.
+ * @param {string} name
+ * @param {string} email
+ * @param {string} phones
+ */
 async function addContact(name, email, phone) {
   const contacts = await readFile();
   const newContactId = (Number(contacts[contacts.length - 1].id) + 1).toString();
@@ -49,6 +64,10 @@ async function addContact(name, email, phone) {
   writeFile([...contacts, newContact]);
 }
 
+/**
+ * Removing element by 'Id' from data array.
+ * @param {string} contactId - id of the element to be deleted.
+ */
 async function removeContact(contactId) {
   const contactIdStr = contactId.toString();
   const contacts = await readFile();
@@ -62,5 +81,3 @@ module.exports = {
   addContact,
   removeContact
 }
-
-
