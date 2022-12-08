@@ -14,7 +14,7 @@ async function readFile() {
 
 async function writeFile(data) {
   try {
-    fs.writeFile(contactsPath, JSON.stringify(data, null, '\t'));
+    await fs.writeFile(contactsPath, JSON.stringify(data, null, '\t'));
   } catch (err) {
     error(err);
   }
@@ -42,7 +42,7 @@ async function listContacts() {
 async function getContactById(contactId) {
   const contactIdStr = contactId.toString();
   const contacts = await readFile();
-  const contact = await contacts.filter(({ id }) => id === contactIdStr);
+  const contact = await contacts.find(({ id }) => id === contactIdStr);
   console.table(contact);
 }
 
